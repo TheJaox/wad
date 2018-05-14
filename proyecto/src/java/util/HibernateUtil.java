@@ -2,7 +2,6 @@ package util;
 
 import java.io.File;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
@@ -26,8 +25,8 @@ public class HibernateUtil {
         }
     }
 
-    public static Session getSession() throws HibernateException {
-        return factory.openSession();
+    public static SessionFactory getSessionFactory() throws HibernateException {
+        return factory;
     }
 
 }

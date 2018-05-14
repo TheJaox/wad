@@ -17,7 +17,7 @@ public class test {
      */
     public static void main(String[] args) {
         //Traemos la sesion de nuestra clase HbernateUtil
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         //Empezamos la transaccion
         session.beginTransaction();
         

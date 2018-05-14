@@ -58,4 +58,9 @@ public class UserPrueba {
     public void setPass(String pass) {
         this.pass = pass;
     }
+    
+    @Override
+    public String toString() {
+        return "Id: " + this.getId() + "\tUser: " + this.getUserName();
+    }
 }
