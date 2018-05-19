@@ -27,11 +27,11 @@ public class crudDAO {
         System.out.println("Ex: " + ex);
     }
 
-    public Long insertUserPrueba(UserPrueba userPrueba) {
-        Long id = 0L;
+    public int insertUserPrueba(UserPrueba userPrueba) {
+        int id = 0;
         try {
             startOperation();
-            id = (Long) session.save(userPrueba);
+            id = (int) session.save(userPrueba);
             transaction.commit();
         } catch (HibernateException ex) {
             transaction.rollback();
@@ -86,7 +86,8 @@ public class crudDAO {
         List<UserPrueba> usersPrueba = new ArrayList<>();
         try {
             startOperation();
-            usersPrueba = session.createQuery("FROM users").list();
+            System.out.println("Quiubo");
+            usersPrueba = session.createQuery("from UserPrueba").list();
         } catch (HibernateException ex) {
             transaction.rollback();
             manageException(ex);
