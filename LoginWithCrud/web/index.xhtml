@@ -17,11 +17,11 @@
                 <h:form>
                     <p:panelGrid id="loginGrid" columns="2">
                         <p:outputLabel id="userLabel" for="userInput" value="Username" />
-                        <p:inputText id="userInput" value="#{loginMB.userName}" required="true" />
+                        <p:inputText id="userInput" value="#{crudMB.userName}" required="true" />
                         <p:outputLabel id="passLabel" for="passInput" value="Password" />
-                        <p:password id="passInput" value="#{loginMB.userPass}"  required="true" />
+                        <p:password id="passInput" value="#{crudMB.userPass}"  required="true" />
                     </p:panelGrid>
-                    <p:commandButton value="submit" action="#{crudMB.prepareIndex()}" />
+                    <p:commandButton value="submit" action="#{crudMB.prueba()}" />
                 </h:form>
             </p:panel>
         </div>

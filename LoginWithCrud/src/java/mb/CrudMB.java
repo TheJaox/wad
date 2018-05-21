@@ -27,6 +27,35 @@ public class CrudMB implements Serializable{
     
     private crudDAO dao = new crudDAO();
     
+    public String prueba() {
+        String redirect = "index";
+        Boolean userNameFlag = true;
+        System.out.println("User: "+userName);
+        System.out.println("Pass: "+userPass);
+        dao = new crudDAO();
+        List<UserPrueba> usersList = dao.findAllUserPueba();
+        for(UserPrueba iter : usersList) {
+            System.out.println("iter: "+iter.getUserName());
+            System.out.println("iter: "+iter.getPass());
+            if(iter.getUserName().equals(userName)) {
+                if(iter.getPass().equals(userPass)) {
+                    System.err.println("userLogeado");
+                    redirect = prepareIndex();
+                    userNameFlag = false;
+                } else {
+                    System.out.println("Password incorrecta");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Password incorrecto"));
+                }
+            } else {
+                System.out.println("Username incorrecto");
+            }
+        }
+        if(userNameFlag) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "UserName incorrecto"));
+        }
+        return redirect;
+    }
+    
     public String prepareIndex() {
         String redirect = "/crud/index";
         //System.out.println("UserPureba: "+userPrueba.toString());
@@ -38,6 +67,8 @@ public class CrudMB implements Serializable{
     public String prepareAdd() {
         String redirect = "add";
         System.out.println("PreapreAdd");
+        userName = "";
+        userPass = "";
         return redirect;
     }
     
@@ -49,9 +80,9 @@ public class CrudMB implements Serializable{
         userPrueba.setUserName(userName);
         userPrueba.setPass(userPass);
         dao.insertUserPrueba(userPrueba);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuario agregado"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info add", "Usuario agregado"));
         
-        return redirect;
+        return prepareIndex();
     }
     
     public String prepareUpdate(UserPrueba user) {
@@ -68,17 +99,17 @@ public class CrudMB implements Serializable{
         userPrueba.setUserName(userName);
         userPrueba.setPass(userPass);
         dao.updateUserPrueba(userPrueba);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Usuario modificado"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info edit", "Usuario modificado"));
         redirect = prepareIndex();
         return redirect;
     }
     
     public String delete(UserPrueba user) {
         String redirect = "index";
-        System.out.println("UserName: "+userName);
-        System.out.println("UserPass: "+userPass);
+        System.out.println("UserName: "+user.getUserName());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info delete", "Usuario eliminado"));
         dao.deleteUserPrueba(user);
-        return redirect;
+        return prepareIndex();
     }
 
     public UserPrueba getUserPrueba() {
