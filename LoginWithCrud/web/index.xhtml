@@ -3,27 +3,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Login</title>
+        <h:outputStylesheet library="css" name="estilos.css"/>
     </h:head>
-    <h:body>
-        <div id="contenidoDiv">
-            <p:panel id="titlePanel">
-                <h:outputText id="title" value="LOGIN" />
-                <p:messages id="messages" autoUpdate="true" />
-            </p:panel>
-            <p:panel id="loginPanel">
-                <h:form>
-                    <p:panelGrid id="loginGrid" columns="2">
-                        <p:outputLabel id="userLabel" for="userInput" value="Username" />
-                        <p:inputText id="userInput" value="#{crudMB.userName}" required="true" />
-                        <p:outputLabel id="passLabel" for="passInput" value="Password" />
-                        <p:password id="passInput" value="#{crudMB.userPass}"  required="true" />
-                    </p:panelGrid>
-                    <p:commandButton value="submit" action="#{crudMB.prueba()}" />
-                </h:form>
-            </p:panel>
+    <h:body id="principal">
+        <div id="top">
+            <ui:insert name="top">Lear how to use verbs</ui:insert>
+        </div>
+        <div>          
+            <div id="contenidoDiv">
+                <p:panel id="titlePanel">
+                    <h:outputText id="title" value="LOGIN" />
+                    <p:messages id="messages" autoUpdate="true" />
+                </p:panel>
+                <p:panel id="loginPanel">
+                    <h:form>
+                        <p:panelGrid id="loginGrid" columns="2">
+                            <p:outputLabel id="userLabel" for="userInput" value="Username" />
+                            <p:inputText id="userInput" value="#{crudMB.userName}" required="true" />
+                            <p:outputLabel id="passLabel" for="passInput" value="Password" />
+                            <p:password id="passInput" value="#{crudMB.userPass}"  required="true" />
+                        </p:panelGrid>
+                        <p:commandButton value="submit" action="#{crudMB.prueba()}" />
+                    </h:form>
+                </p:panel>
+            </div>
+       </div>
+        
+         <div id="bottom">
+            <ui:insert name="bottom">REDES</ui:insert>
         </div>
     </h:body>
 </html>
