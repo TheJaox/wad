@@ -2,9 +2,8 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.User;
+import model.UserType;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -13,7 +12,7 @@ import util.HibernateUtil;
  * DAO para la comunicacion con la tabla de Usuarios
  * @author jair_
  */
-public class UserDAO {
+public class UserTypeDAO {
     
     private Session session;
 
@@ -34,26 +33,25 @@ public class UserDAO {
         System.out.println(">>>>>>>>>>>Ex: " + ex.getMessage());
     }
 
-    public Integer insertUser(User user) {
+    public Integer insertUserType(UserType userType) {
         Integer id = 0;
         try {
             startOperation();
-            id = (Integer) session.save(user);
+            id = (Integer) session.save(userType);
             transaction.commit();
         } catch (HibernateException ex) {
             transaction.rollback();
             manageException(ex);
-            id = 0;
         } finally {
             closeSession();
         }
         return id;
     }
 
-    public void updateUser(User user) {
+    public void updateUserType(UserType userType) {
         try {
             startOperation();
-            session.update(user);
+            session.update(userType);
             transaction.commit();
         } catch (HibernateException ex) {
             transaction.rollback();
@@ -63,10 +61,10 @@ public class UserDAO {
         }
     }
 
-    public void deleteUser(User user) {
+    public void deleteUserType(UserType userType) {
         try {
             startOperation();
-            session.delete(user);
+            session.delete(userType);
             transaction.commit();
         } catch (HibernateException ex) {
             transaction.rollback();
@@ -76,50 +74,35 @@ public class UserDAO {
         }
     }
 
-    public User findUserById(Integer id) {
-        User user = new User();
+    public UserType findUserTypeById(Integer id) {
+        UserType userType = new UserType();
         try {
             startOperation();
-            user = (User) session.get(User.class, id);
+            userType = (UserType) session.get(UserType.class, id);
         } catch (HibernateException ex) {
             transaction.rollback();
             manageException(ex);
         } finally {
             closeSession();
         }
-        return user;
-    }
-
-    public User findUserByName(String userName) {
-        User user = null;
-        try {
-            startOperation();
-            Query query = session.createQuery("FROM User u WHERE u.name = :userName");
-            query.setParameter("userName", userName);
-            if(query.list().size() > 0) {
-                user = (User) query.list().get(0);
-            }
-        } catch (HibernateException ex) {
-            transaction.rollback();
-            manageException(ex);
-        } finally {
-            closeSession();
-        }
-        return user;
+        return userType;
     }
     
-    public List<User> findAllUser() {
-        List<User> user = new ArrayList<>();
+    public List<UserType> findAllUserType() {
+        List<UserType> userType = new ArrayList<>();
         try {
             startOperation();
-            user = this.session.createQuery("from User").list();
+            userType = this.session.createQuery("from UserType").list();
+            if(userType.isEmpty()) {
+                userType = null;
+            }
         } catch (HibernateException ex) {
             this.transaction.rollback();
             manageException(ex);
         } finally {
             closeSession();
         }
-        return user;
+        return userType;
     }
     
     
