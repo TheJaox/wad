@@ -1,0 +1,12 @@
+/* Hoja de estilos */
+#header {
+    border: 1px solid black;
+    height: 50px;
+    width: 100%;
+}
+
+#footer {
+    border: 1px solid black;
+    height: 50px;
+    width: 100%;
+}

@@ -50,10 +50,10 @@ Contributor(s):
     <property name="hibernate.connection.password">admin</property>
     <mapping class="model.UserType"/>
     <mapping class="model.User"/>
-    <mapping class="model.MultimediaType"/>
+    <mapping class="model.MultiType"/>
     <mapping class="model.Multimedia"/>
     <mapping class="model.Excercise"/>
-    <mapping class="model.MultimediaExcercise"/>
-    <mapping class="model.Result"/>
+    <mapping class="model.MultiExcercise"/>
+    <mapping class="model.Answer"/>
   </session-factory>
 </hibernate-configuration>

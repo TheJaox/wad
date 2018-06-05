@@ -18,13 +18,10 @@ public class UserType implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "idUserType")
-    private int id;
+    private Integer id;
 
     @Column(name = "userTypeName")
     private String userTypeName;
-
-    public UserType() {
-    }
 
     public int getId() {
         return id;
