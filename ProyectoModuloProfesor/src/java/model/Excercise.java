@@ -1,13 +1,18 @@
 package model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -26,10 +31,16 @@ public class Excercise implements Serializable {
     @Column(name = "excerciseName")
     private String name;
         
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "idUser")
     private User user;
 
+    @OneToMany(mappedBy = "excercises", cascade = CascadeType.ALL)
+    private Set<Answer> respuestas;
+    
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "excercises")
+    private Set<Multimedia> multimedias = new HashSet();
+    
     public int getId() {
         return id;
     }

@@ -18,7 +18,6 @@ public class MultiExcercise implements Serializable {
     @Column(name = "idExcercise")
     private int idExcercise;
     
-    @Id
     @Column(name = "idMultimedia")
     private int idMultimedia;
 

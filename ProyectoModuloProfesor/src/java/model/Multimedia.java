@@ -1,13 +1,18 @@
 package model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,13 +37,20 @@ public class Multimedia implements Serializable {
     @Column(name = "multiText")
     private String text;
         
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "idUser")
     private User user;
         
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "idMultiType")
     private MultiType multiType;
+    
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "multiExcercise", catalog = "proyectoWad", joinColumns = { 
+			@JoinColumn(name = "idMultimedia", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "idExcercise", 
+					nullable = false, updatable = false) })
+    private Set<Excercise> excercises = new HashSet<>();
 
     public int getId() {
         return id;
@@ -86,6 +98,14 @@ public class Multimedia implements Serializable {
 
     public void setMultiType(MultiType multiType) {
         this.multiType = multiType;
+    }
+
+    public Set<Excercise> getExcercises() {
+        return excercises;
+    }
+
+    public void setExcercises(Set<Excercise> excercises) {
+        this.excercises = excercises;
     }
     
 }

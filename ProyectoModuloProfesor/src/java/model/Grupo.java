@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -15,19 +17,23 @@ import javax.persistence.Table;
  * @author jair_
  */
 @Entity
-@Table(name = "multiType")
-public class MultiType implements Serializable {
+@Table(name = "grupo")
+public class Grupo implements Serializable {
     
     @Id
     @GeneratedValue
-    @Column(name = "idMultiType")
+    @Column(name = "idGrupo")
     private int id;
-    
-    @Column(name = "multiTypeName")
-    private String name;
 
-    @OneToMany(mappedBy = "multiType", cascade = CascadeType.ALL)
-    private Set<Multimedia> multimedia;
+    @Column(name = "groupName")
+    private String name;
+        
+    @ManyToOne
+    @JoinColumn(name = "idProfesor")
+    private User profesor;
+
+    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
+    private Set<User> alumnos;
     
     public int getId() {
         return id;
@@ -44,5 +50,13 @@ public class MultiType implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-        
+
+    public User getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(User profesor) {
+        this.profesor = profesor;
+    }
+
 }

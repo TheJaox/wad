@@ -34,6 +34,8 @@ public class AdminMB implements Serializable {
 
     private String pass;
 
+    private Integer id;
+
     private List<UserType> userTypes;
 
     private UserType userTypeSelected;
@@ -56,6 +58,7 @@ public class AdminMB implements Serializable {
     public String prepareAdd() {
         String pageToReturn = "/admin/add";
         userTypes = userTypeDAO.findAllUserType();
+        id = 0;
         if (userTypes == null) {
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay tipo de usuarios", null));
@@ -64,32 +67,56 @@ public class AdminMB implements Serializable {
         return pageToReturn;
     }
 
-    public String Add() {
-        String pageToReturn = "/admin/index";
+    public String add() {
+        String pageToReturn;
         user = new User();
         user.setName(name);
         user.setPass(pass);
-        userTypeSelected = userTypeDAO.findUserTypeById(userTypeSelected.getId());
+        userTypeSelected = userTypeDAO.findUserTypeById(id);
         user.setUserType(userTypeSelected);
-        if(userDAO.insertUser(user) == 0) {
+        if (userDAO.insertUser(user) == 0) {
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al crear usuario", null));
             pageToReturn = "/admin/add";
+        } else {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario creado", null));
+            pageToReturn = prepareIndex();
         }
         return pageToReturn;
     }
 
     public String prepareUpdate() {
         user = userDAO.findUserById(user.getId());
+        name = user.getName();
+        pass = user.getPass();
+        userTypes = userTypeDAO.findAllUserType();
         return "/admin/edit";
+    }
+
+    public String update() {
+        user.setName(name);
+        user.setPass(pass);
+        id = 0;
+        userTypeSelected = userTypeDAO.findUserTypeById(id);
+        user.setUserType(userTypeSelected);
+        userDAO.updateUser(user);
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Uusario modificado", null));
+
+        return prepareIndex();
     }
 
     public String delete() {
         user = userDAO.findUserById(user.getId());
-        userDAO.deleteUser(user);
-        FacesContext.getCurrentInstance()
-                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario eliminado", null));
-        return "/admin/index";
+        if (userDAO.deleteUser(user) > 0) {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario eliminado", null));
+        } else {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar", null));
+        }
+        return prepareIndex();
     }
 
     public UserDAO getUserDAO() {
@@ -146,6 +173,14 @@ public class AdminMB implements Serializable {
 
     public void setUserTypeSelected(UserType userTypeSelected) {
         this.userTypeSelected = userTypeSelected;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }
