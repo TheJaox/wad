@@ -22,6 +22,9 @@ public class LoginMB implements Serializable {
     @ManagedProperty(value = "#{adminMB}")
     private AdminMB adminMB;
     
+    @ManagedProperty(value = "#{excerciseMB}")
+    private ExcerciseMB excerciseMB;
+    
     private UserDAO userDAO;
 
     private User user;
@@ -37,7 +40,7 @@ public class LoginMB implements Serializable {
     }
 
     public String login() {
-        String pageToReturn = "index";
+        String pageToReturn = "/index";
         User userFound;
         userFound = userDAO.findUserByName(userName);
         if (userFound != null) {
@@ -48,7 +51,8 @@ public class LoginMB implements Serializable {
                     adminMB.setUser(user);
                     pageToReturn = adminMB.prepareIndex();
                 } else if (user.getUserType().getId() == BusinessConstants.USERTYPE_PROFE) {
-                    pageToReturn = "/excercises/index";
+                    excerciseMB.setUser(user);
+                    pageToReturn = excerciseMB.prepareIndex();
                 } else {
                     //Cambiar por alumno
                 }
@@ -91,6 +95,10 @@ public class LoginMB implements Serializable {
 
     public void setUserPass(String userPass) {
         this.userPass = userPass;
+    }
+
+    public void setExcerciseMB(ExcerciseMB excerciseMB) {
+        this.excerciseMB = excerciseMB;
     }
 
 }

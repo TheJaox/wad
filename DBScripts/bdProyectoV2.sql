@@ -10,17 +10,18 @@ CREATE TABLE grupo(idGrupo INT NOT NULL AUTO_INCREMENT,
 	idProfesor INT UNIQUE NOT NULL,
 	groupName VARCHAR(50) UNIQUE NOT NULL,
 	PRIMARY KEY(idGrupo));
-
-ALTER TABLE grupo ADD CONSTRAINT FK_idProfesor FOREIGN KEY(idProfesor) REFERENCES users(idUser);
 	
 CREATE TABLE users(idUser INT NOT NULL AUTO_INCREMENT, 
 	userName VARCHAR(50) UNIQUE NOT NULL, 
+	fullName VARCHAR(50) NOT NULL, 
 	userPass VARCHAR(50) NOT NULL, 
 	idUserType INT NOT NULL,
 	idGrupo INT,
 	PRIMARY KEY(idUser),
 	CONSTRAINT FK_idUserType FOREIGN KEY(idUserType) REFERENCES userType(idUserType),
 	CONSTRAINT FK_idUserGrupo FOREIGN KEY(idGrupo) REFERENCES grupo(idGrupo));
+
+ALTER TABLE grupo ADD CONSTRAINT FK_idProfesor FOREIGN KEY(idProfesor) REFERENCES users(idUser);
 
 CREATE TABLE excercises(idExcercise INT NOT NULL AUTO_INCREMENT,
 	excerciseName VARCHAR(50) NOT NULL,
@@ -63,6 +64,8 @@ INSERT INTO multiType(multiTypeName) VALUES('image');
 INSERT INTO multiType(multiTypeName) VALUES('audio');
 
 /* Catalogo users */
-INSERT INTO users(userName,userPass,idUserType) VALUES('ADMIN','1234',1);
-INSERT INTO users(userName,userPass,idUserType) VALUES('PROFESOR','1234',2);
-INSERT INTO users(userName,userPass,idUserType) VALUES('ALUMNO','1234',3);
+INSERT INTO users(userName,fullName,userPass,idUserType) VALUES('ADMIN','Administrador','1234',1);
+INSERT INTO users(userName,fullName,userPass,idUserType) VALUES('Ruben','Ruben Peredo Valderrama','1234',2);
+INSERT INTO users(userName,fullName,userPass,idUserType) VALUES('rubl3nd','Ruben Salcedo Baron','1234',3);
+INSERT INTO users(userName,fullName,userPass,idUserType) VALUES('rafita','Rafael Navarro Perez','1234',3);
+INSERT INTO users(userName,fullName,userPass,idUserType) VALUES('bryanAsco','Bryan Dominguez de la Rosa','1234',3);

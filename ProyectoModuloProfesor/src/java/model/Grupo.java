@@ -30,10 +30,10 @@ public class Grupo implements Serializable {
         
     @ManyToOne
     @JoinColumn(name = "idProfesor")
-    private User profesor;
+    private User user;
 
     @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
-    private Set<User> alumnos;
+    private Set<User> users;
     
     public int getId() {
         return id;
@@ -52,11 +52,27 @@ public class Grupo implements Serializable {
     }
 
     public User getProfesor() {
-        return profesor;
+        return user;
     }
 
     public void setProfesor(User profesor) {
-        this.profesor = profesor;
+        this.user = profesor;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
 }

@@ -31,6 +31,8 @@ public class AdminMB implements Serializable {
     private User user;
 
     private String name;
+    
+    private String fullName;
 
     private String pass;
 
@@ -58,7 +60,6 @@ public class AdminMB implements Serializable {
     public String prepareAdd() {
         String pageToReturn = "/admin/add";
         userTypes = userTypeDAO.findAllUserType();
-        id = 0;
         if (userTypes == null) {
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No hay tipo de usuarios", null));
@@ -71,6 +72,7 @@ public class AdminMB implements Serializable {
         String pageToReturn;
         user = new User();
         user.setName(name);
+        user.setFullName(fullName);
         user.setPass(pass);
         userTypeSelected = userTypeDAO.findUserTypeById(id);
         user.setUserType(userTypeSelected);
@@ -89,6 +91,7 @@ public class AdminMB implements Serializable {
     public String prepareUpdate() {
         user = userDAO.findUserById(user.getId());
         name = user.getName();
+        fullName = user.getFullName();
         pass = user.getPass();
         userTypes = userTypeDAO.findAllUserType();
         return "/admin/edit";
@@ -96,8 +99,8 @@ public class AdminMB implements Serializable {
 
     public String update() {
         user.setName(name);
+        user.setFullName(fullName);
         user.setPass(pass);
-        id = 0;
         userTypeSelected = userTypeDAO.findUserTypeById(id);
         user.setUserType(userTypeSelected);
         userDAO.updateUser(user);
@@ -181,6 +184,14 @@ public class AdminMB implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
 }

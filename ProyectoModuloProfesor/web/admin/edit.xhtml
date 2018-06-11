@@ -16,9 +16,11 @@
                     <h:form>
                         <h:outputText value="Editar usuario: #{adminMB.name}"/>
                         <p:panelGrid id="editGrid" columns="2">
-                            <p:outputLabel id="userLabel" for="userInput" value="Nuevo nombre" />
+                            <p:outputLabel id="userLabel" for="userInput" value="Modificar usuario" />
                             <p:inputText id="userInput" value="#{adminMB.name}" required="true" />
-                            <p:outputLabel id="passLabel" for="passInput" value="Nuevo password" />
+                            <p:outputLabel id="nameLabel" for="nameInput" value="Modificar nombre" />
+                            <p:inputText id="nameInput" value="#{adminMB.fullName}" required="true" />
+                            <p:outputLabel id="passLabel" for="passInput" value="Modificar contra" />
                             <p:password id="passInput" value="#{adminMB.pass}"  required="true" />
                             <p:outputLabel id="typeLabel" for="typeSelectOne" value="Seleccione un tipo" />
                             <p:selectOneMenu id="typeSelectOne" value="#{adminMB.id}">

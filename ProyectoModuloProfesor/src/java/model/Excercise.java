@@ -35,7 +35,7 @@ public class Excercise implements Serializable {
     @JoinColumn(name = "idUser")
     private User user;
 
-    @OneToMany(mappedBy = "excercises", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL)
     private Set<Answer> respuestas;
     
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "excercises")
@@ -63,6 +63,22 @@ public class Excercise implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Answer> getRespuestas() {
+        return respuestas;
+    }
+
+    public void setRespuestas(Set<Answer> respuestas) {
+        this.respuestas = respuestas;
+    }
+
+    public Set<Multimedia> getMultimedias() {
+        return multimedias;
+    }
+
+    public void setMultimedias(Set<Multimedia> multimedias) {
+        this.multimedias = multimedias;
     }
     
 }

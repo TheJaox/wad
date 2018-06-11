@@ -1,14 +1,13 @@
 package dao;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale.Category;
 import model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import util.BusinessConstants;
 import util.HibernateUtil;
 
 /**
@@ -122,6 +121,38 @@ public class UserDAO {
         return user;
     }
 
+    public List<User> findAllProfesores() {
+        List<User> user = new ArrayList<>();
+        try {
+            startOperation();
+            Query query = this.session.createQuery("from User where idUserType=:id");
+            query.setParameter("id", BusinessConstants.USERTYPE_PROFE);
+            user = query.list();
+        } catch (HibernateException ex) {
+            transaction.rollback();
+            manageException(ex);
+        } finally {
+            closeSession();
+        }
+        return user;
+    }
+    
+    public List<User> findAllAlumnos() {
+        List<User> user = new ArrayList<>();
+        try {
+            startOperation();
+            Query query = this.session.createQuery("from User where idUserType=:id");
+            query.setParameter("id", BusinessConstants.USERTYPE_ALUMNO);
+            user = query.list();
+        } catch (HibernateException ex) {
+            transaction.rollback();
+            manageException(ex);
+        } finally {
+            closeSession();
+        }
+        return user;
+    }
+    
     public List<User> findAllUser() {
         List<User> user = new ArrayList<>();
         try {

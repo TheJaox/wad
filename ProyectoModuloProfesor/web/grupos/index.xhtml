@@ -12,30 +12,30 @@
                     <h:outputText id="title" value="Admin index" />
                     <p:messages id="messages" />
                 </p:panel>
-                <p:panel id="adminUsers">
+                <p:panel id="gruposPanel">
                     <h:form>
-                        <p:dataTable id="usersTable"
-                                     value="#{adminMB.users}"
-                                     var="user">
+                        <p:dataTable id="gruposTable"
+                                     value="#{gruposMB.grupos}"
+                                     var="grupo">
                             <p:column headerText="Id">
-                                <h:outputText value="#{user.id}" />
+                                <h:outputText value="#{grupo.id}" />
                             </p:column>
-                            <p:column headerText="Nombre">
-                                <h:outputText value="#{user.name}" />
+                            <p:column headerText="Nombre Grupo">
+                                <h:outputText value="#{grupo.name}" />
                             </p:column>
-                            <p:column headerText="Tipo">
-                                <h:outputText value="#{user.userType.userTypeName}" />
+                            <p:column headerText="Nombre Profesor">
+                                <h:outputText value="#{grupo.profesor.name}" />
                             </p:column>
                             <p:column headerText="Acciones">
-                                <p:commandButton value="edit" action="#{adminMB.prepareUpdate()}" update="adminUsers messages">
-                                    <f:setPropertyActionListener target="#{adminMB.user}" value="#{user}" />
+                                <p:commandButton value="Edit" action="#{gruposMB.prepareUpdate()}" update="gruposPanel messages">
+                                    <f:setPropertyActionListener target="#{gruposMB.grupo}" value="#{grupo}" />
                                 </p:commandButton>
-                                <p:commandButton value="delete" action="#{adminMB.delete()}" update="adminUsers messages">
-                                    <f:setPropertyActionListener target="#{adminMB.user}" value="#{user}" />
+                                <p:commandButton value="Delete" action="#{gruposMB.delete()}" update="gruposPanel messages">
+                                    <f:setPropertyActionListener target="#{gruposMB.grupo}" value="#{grupo}" />
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable>
-                        <p:commandButton value="add" action="#{adminMB.prepareAdd()}"/>
+                        <p:commandButton value="Add" action="#{gruposMB.prepareAdd()}"/>
                     </h:form>
                 </p:panel>
             </ui:define>

@@ -28,6 +28,9 @@ public class User implements Serializable {
     @Column(name = "userName")
     private String name;
     
+    @Column(name = "fullName")
+    private String fullName;
+    
     @Column(name = "userPass")
     private String pass;
     
@@ -35,8 +38,12 @@ public class User implements Serializable {
     @JoinColumn(name = "idUserType")
     private UserType userType;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Grupo> grupos;
+    
+    @ManyToOne
+    @JoinColumn(name = "idGrupo")
+    private Grupo grupo;
     
     public int getId() {
         return id;
@@ -69,4 +76,29 @@ public class User implements Serializable {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+    public Set<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(Set<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+        
 }

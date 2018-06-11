@@ -9,12 +9,42 @@
         <ui:composition template="/templates/template.xhtml">
             <ui:define name="content">
                 <p:panel id="titlePanel">
-                    <h:outputText id="title" value="Admin index" />
+                    <h:outputText id="title" value="Profe index" />
                     <p:messages id="messages" />
                 </p:panel>
-                <p:panel id="adminUsers">
+                <p:panel id="profeExcercises">
                     <h:form>
-                        
+                        <p:panel>
+                            <p:dataTable id="excercisesTable"
+                                         value="#{excerciseMB.ejercicios}"
+                                         var="ejercicio">
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{ejercicio.id}" />
+                                </p:column>
+                                <p:column headerText="Name">
+                                    <h:outputText value="#{ejercicio.name}" />
+                                </p:column>
+                                <p:column headerText="Acciones">
+                                    <p:commandButton value="edit" 
+                                                     action="#{excerciseMB.prepareUpdate()}" 
+                                                     update="profeExcercises messages">
+                                        <f:setPropertyActionListener target="#{excerciseMB.ejercicio}" 
+                                                                     value="#{ejercicio}" />
+                                    </p:commandButton>
+                                    <p:commandButton value="delete" 
+                                                     action="#{excerciseMB.delete()}" 
+                                                     update="profeExcercises messages">
+                                        <f:setPropertyActionListener target="#{excerciseMB.ejercicio}" 
+                                                                     value="#{ejercicio}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <p:panel>
+                            <p:commandButton value="add" 
+                                             action="#{excerciseMB.prepareAdd()}" 
+                                             class="buttonCenter" />
+                        </p:panel>
                     </h:form>
                 </p:panel>
             </ui:define>

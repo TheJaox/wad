@@ -5,19 +5,27 @@
       xmlns:f="http://java.sun.com/jsf/core" 
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Add Excercise</title>
+    </h:head>
     <h:body>
-        <ui:composition template="/templates/template.xhtml">
-            <ui:define name="content">
-                <p:panel id="titlePanel">
-                    <h:outputText id="title" value="Admin index" />
-                    <p:messages id="messages" />
-                </p:panel>
-                <p:panel id="adminUsers">
-                    <h:form>
-                        
-                    </h:form>
-                </p:panel>
-            </ui:define>
-        </ui:composition>
+        <div id="leftDiv"
+             class="leftPart">
+            <p:panel id="leftTitlePanel">
+                <h:outputText id="MultimediaTitle" value="Multimedia" />
+            </p:panel>
+        </div>
+        <div id="rightDiv" 
+             class="rightPart"> 
+            <p:panel id="rightTitlePanel">
+                <h:outputText id="addTitle" value="Add excercicse" />
+                <p:messages id="messages" />
+            </p:panel>
+            <p:panel id="addExcercise">
+                <h:form>
+
+                </h:form>
+            </p:panel>
+        </div>
     </h:body>
 </html>

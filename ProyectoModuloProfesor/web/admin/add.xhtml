@@ -16,8 +16,10 @@
                     <h:form>
                         <h:outputText value="Agregar nuevo usuario"/>
                         <p:panelGrid id="addGrid" columns="2">
-                            <p:outputLabel id="userLabel" for="userInput" value="Ingrese el nombre" />
+                            <p:outputLabel id="userLabel" for="userInput" value="Ingrese el usuario" />
                             <p:inputText id="userInput" value="#{adminMB.name}" required="true" />
+                            <p:outputLabel id="nameLabel" for="nameInput" value="Ingrese el nombre" />
+                            <p:inputText id="nameInput" value="#{adminMB.fullName}" required="true" />
                             <p:outputLabel id="passLabel" for="passInput" value="Ingrese su Password" />
                             <p:password id="passInput" value="#{adminMB.pass}"  required="true" />
                             <p:outputLabel id="typeLabel" for="typeSelectOne" value="Seleccione un tipo" />

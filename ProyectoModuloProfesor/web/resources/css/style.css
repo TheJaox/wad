@@ -5,8 +5,33 @@
     width: 100%;
 }
 
+#contentDiv {
+    height: 500px;
+    border: 1px solid green;
+    width: 100%;
+    overflow: auto;
+}
+
 #footer {
     border: 1px solid black;
     height: 50px;
     width: 100%;
+}
+
+.leftPart {
+    border-right: 1px solid red;
+    width: 20%;
+    height: 100%;
+    float: left;
+}
+
+.rightPart {
+    border-left: 1px solid blue;
+    width: 80%;
+    height: 100%;
+    float: right;
+}
+
+.buttonCenter {
+    text-align: center;
 }
