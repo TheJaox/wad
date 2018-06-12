@@ -44,5 +44,13 @@ public class MultiType implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-        
+
+    public Set<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    public void setMultimedia(Set<Multimedia> multimedia) {
+        this.multimedia = multimedia;
+    }
+
 }

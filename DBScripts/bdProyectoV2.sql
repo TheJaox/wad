@@ -42,12 +42,14 @@ CREATE TABLE multiType(idMultiType INT NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY(idMultiType));
 
 CREATE TABLE multimedia(idMultimedia INT NOT NULL AUTO_INCREMENT,
+	idMultiType INT NOT NULL,
 	multimediaName VARCHAR(50) UNIQUE NOT NULL,
 	multiFile BLOB,
 	multiText VARCHAR(50),
 	idUser INT NOT NULL,
 	PRIMARY KEY(idMultimedia),
-	CONSTRAINT FK_idUserMultimedia FOREIGN KEY(idUser) REFERENCES users(idUser));
+	CONSTRAINT FK_idUserMultimedia FOREIGN KEY(idUser) REFERENCES users(idUser),
+	CONSTRAINT FK_idTypeMultimedia FOREIGN KEY(idMultiType) REFERENCES multiType(idMultiType));
 
 CREATE TABLE multiExcercise(idExcercise INT NOT NULL,
 	idMultimedia INT NOT NULL,
