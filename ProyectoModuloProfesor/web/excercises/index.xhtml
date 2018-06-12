@@ -24,6 +24,9 @@
                                 <p:column headerText="Name">
                                     <h:outputText value="#{ejercicio.name}" />
                                 </p:column>
+                                <p:column headerText="Grupo">
+                                    <h:outputText value="#{ejercicio.grupo.name}" />
+                                </p:column>
                                 <p:column headerText="Acciones">
                                     <p:commandButton value="edit" 
                                                      action="#{excerciseMB.prepareUpdate()}" 

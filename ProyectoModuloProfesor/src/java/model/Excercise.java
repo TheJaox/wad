@@ -34,11 +34,15 @@ public class Excercise implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idUser")
     private User user;
+            
+    @ManyToOne
+    @JoinColumn(name = "idGrupo")
+    private Grupo grupo;
 
     @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL)
     private Set<Answer> respuestas;
     
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "excercises")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "excercises")
     private Set<Multimedia> multimedias = new HashSet();
     
     public int getId() {
@@ -79,6 +83,14 @@ public class Excercise implements Serializable {
 
     public void setMultimedias(Set<Multimedia> multimedias) {
         this.multimedias = multimedias;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
     
 }

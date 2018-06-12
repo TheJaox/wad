@@ -36,6 +36,9 @@ public class Grupo implements Serializable {
     @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<User> users;
     
+    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Excercise> ejercicios;
+    
     public int getId() {
         return id;
     }
@@ -66,6 +69,14 @@ public class Grupo implements Serializable {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<Excercise> getEjercicios() {
+        return ejercicios;
+    }
+
+    public void setEjercicios(Set<Excercise> ejercicios) {
+        this.ejercicios = ejercicios;
     }
 
 }

@@ -23,7 +23,16 @@
             </p:panel>
             <p:panel id="addExcercise">
                 <h:form>
-
+                    <p:panelGrid id="grupoGrid"
+                                 columns="4">
+                        <p:outputLabel id="nameLabel" for="nameInput" value="Nombre del Ejercicio" />
+                        <p:inputText id="nameInput" value="#{excerciseMB.ejercicio.name}" required="true" />
+                        <p:outputLabel id="grupoName" for="grupoSelectOne" value="Grupo" />
+                        <p:selectOneMenu id="grupoSelectOne" value="#{excerciseMB.id}">
+                            <f:selectItems value="#{excerciseMB.profesor.grupos}" var="grupo"
+                                           itemLabel="#{grupo.name}" itemValue="#{grupo.id}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
                 </h:form>
             </p:panel>
         </div>

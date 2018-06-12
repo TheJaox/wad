@@ -125,6 +125,8 @@ public class GruposMB implements Serializable {
                 userDAO.updateUser(iterAlumno);
             }
             System.out.println("Insert grupo: " + result);
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Grupo agregado", null));
             pageToReturn = prepareIndex();
         } else {
             FacesContext.getCurrentInstance()
@@ -137,7 +139,7 @@ public class GruposMB implements Serializable {
         String pageToReturn = "/grupos/edit";
         grupo = grupoDAO.findGrupoById(grupo.getId());
         profesores = userDAO.findAllProfesores();
-        profesor = userDAO.findUserById(grupo.getProfesor().getId());
+        profesor = grupo.getProfesor();
         id = profesor.getId();
         alumnosAgregados = new ArrayList<>(grupo.getUsers());
         alumnos = userDAO.findAllAlumnosAndNotGrupo();
@@ -163,12 +165,23 @@ public class GruposMB implements Serializable {
             iterAlumno.setGrupo(null);
             userDAO.updateUser(iterAlumno);
         }
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Grupo modificado", null));
         return prepareIndex();
     }
 
     public String delete() {
-        String pageToReturn = "/grupos/index";
-        return pageToReturn;
+        grupo = grupoDAO.findGrupoById(grupo.getId());
+        profesor = grupo.getProfesor();
+        alumnosAgregados = new ArrayList<>(grupo.getUsers());
+        for (User iterAlumno : alumnosAgregados) {
+            iterAlumno.setGrupo(null);
+            userDAO.updateUser(iterAlumno);
+        }
+        grupoDAO.deleteGrupo(grupo);
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Grupo eliminado", null));
+        return prepareIndex();
     }
 
     public List<Grupo> getGrupos() {

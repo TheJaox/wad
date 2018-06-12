@@ -1,6 +1,7 @@
 package mb;
 
 import dao.ExcerciseDAO;
+import dao.UserDAO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +23,25 @@ import org.primefaces.context.RequestContext;
 public class ExcerciseMB implements Serializable {
 
     private ExcerciseDAO excerciseDAO;
-
-    private User user;
+    
+    private UserDAO userDAO;
 
     private List<Excercise> ejercicios;
 
+    private User user;
+    
+    private User profesor;
+
     private Excercise ejercicio;
+    
+    private Integer id;
 
     @PostConstruct
     public void init() {
         excerciseDAO = new ExcerciseDAO();
         ejercicios = new ArrayList<>();
         ejercicio = new Excercise();
+        profesor = new User();
     }
 
     public String prepareIndex() {
@@ -44,6 +52,8 @@ public class ExcerciseMB implements Serializable {
 
     public String prepareAdd() {
         String pageToReturn = "/excercises/add";
+        ejercicio = new Excercise();
+        profesor = userDAO.findUserById(user.getId());
         FacesContext.getCurrentInstance()
                 .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Add", null));
         return pageToReturn;
@@ -91,6 +101,22 @@ public class ExcerciseMB implements Serializable {
 
     public void setEjercicio(Excercise ejercicio) {
         this.ejercicio = ejercicio;
+    }
+
+    public User getProfesor() {
+        return profesor;
+    }
+
+    public void setProfesor(User profesor) {
+        this.profesor = profesor;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }
