@@ -107,9 +107,7 @@ public class GrupoDAO {
         try {
             startOperation();
             Query query = this.session.createQuery("from Grupo");
-                System.out.println("Que hongo");
             if(query.list() != null) {
-                System.out.println("Quiubo");
                 grupos = query.list();
             }
         } catch (HibernateException ex) {

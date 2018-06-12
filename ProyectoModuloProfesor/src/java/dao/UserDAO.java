@@ -125,7 +125,7 @@ public class UserDAO {
         List<User> user = new ArrayList<>();
         try {
             startOperation();
-            Query query = this.session.createQuery("from User where idUserType=:id");
+            Query query = this.session.createQuery("from User u where u.userType.id=:id");
             query.setParameter("id", BusinessConstants.USERTYPE_PROFE);
             user = query.list();
         } catch (HibernateException ex) {
@@ -141,7 +141,40 @@ public class UserDAO {
         List<User> user = new ArrayList<>();
         try {
             startOperation();
-            Query query = this.session.createQuery("from User where idUserType=:id");
+            Query query = this.session.createQuery("from User u where u.userType.id=:id");
+            query.setParameter("id", BusinessConstants.USERTYPE_ALUMNO);
+            user = query.list();
+        } catch (HibernateException ex) {
+            transaction.rollback();
+            manageException(ex);
+        } finally {
+            closeSession();
+        }
+        return user;
+    }
+    
+    public List<User> findAllAlumnosByGrupo(Integer idGrupo) {
+        List<User> user = new ArrayList<>();
+        try {
+            startOperation();
+            Query query = this.session.createQuery("from User u where u.userType.id=:id and u.grupo.id=:idGrupo");
+            query.setParameter("id", BusinessConstants.USERTYPE_ALUMNO);
+            query.setParameter("idGrupo", idGrupo);
+            user = query.list();
+        } catch (HibernateException ex) {
+            transaction.rollback();
+            manageException(ex);
+        } finally {
+            closeSession();
+        }
+        return user;
+    }
+    
+    public List<User> findAllAlumnosAndNotGrupo() {
+        List<User> user = new ArrayList<>();
+        try {
+            startOperation();
+            Query query = this.session.createQuery("from User u where u.userType.id=:id and u.grupo=NULL");
             query.setParameter("id", BusinessConstants.USERTYPE_ALUMNO);
             user = query.list();
         } catch (HibernateException ex) {

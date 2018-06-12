@@ -20,7 +20,7 @@
                                 <p:outputLabel id="nameLabel" for="nameInput" value="Nombre del grupo" />
                                 <p:inputText id="nameInput" value="#{gruposMB.grupoName}" required="true" />
                                 <p:outputLabel id="profesorName" for="profesorSelectOne" value="Profesor" />
-                                <p:selectOneMenu id="profesorSelectOne" value="#{gruposMB.profesor.id}">
+                                <p:selectOneMenu id="profesorSelectOne" value="#{gruposMB.id}">
                                     <f:selectItems value="#{gruposMB.profesores}" var="profesor"
                                                    itemLabel="#{profesor.name}" itemValue="#{profesor.id}"/>
                                 </p:selectOneMenu>
@@ -36,13 +36,10 @@
                                 <p:column headerText="Nombre alumno">
                                     <h:outputText value="#{alumno.fullName}" />
                                 </p:column>
-                                <p:column headerText="Acciones">
+                                <p:column headerText="Acciones" class="buttonCenter" >
                                     <p:commandButton value="Add" 
-                                                     actionListener="#{gruposMB.onAdd()}"
-                                                     update="gruposPanel messages">
-                                        <f:setPropertyActionListener target="#{gruposMB.grupo}" 
-                                                                     value="#{grupo}" />
-                                    </p:commandButton>
+                                                     actionListener="#{gruposMB.onAdd(alumno)}"
+                                                     update="gruposPanel messages" />
                                 </p:column>
                             </p:dataTable>
                         </p:panel>
@@ -56,18 +53,15 @@
                                 <p:column headerText="Nombre alumno">
                                     <h:outputText value="#{alumnoAgregado.fullName}" />
                                 </p:column>
-                                <p:column headerText="Acciones">
+                                <p:column headerText="Acciones" class="buttonCenter" >
                                     <p:commandButton value="Add" 
-                                                     actionListener="#{gruposMB.onRemove()}"
-                                                     update="gruposPanel messages">
-                                        <f:setPropertyActionListener target="#{gruposMB.grupo}" 
-                                                                     value="#{grupo}" />
-                                    </p:commandButton>
+                                                     actionListener="#{gruposMB.onRemove(alumnoAgregado)}"
+                                                     update="gruposPanel messages" />
                                 </p:column>
                             </p:dataTable>
                         </p:panel>
-                        <p:panel id="">
-                            <p:commandButton value="Add" action="#{gruposMB.add()}"/>
+                        <p:panel id="addButton">
+                            <p:commandButton value="Add" action="#{gruposMB.add()}" class="buttonCenter" />
                         </p:panel>
                     </h:form>
                 </p:panel>

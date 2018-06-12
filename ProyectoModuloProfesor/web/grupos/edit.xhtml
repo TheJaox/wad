@@ -12,21 +12,57 @@
                     <h:outputText id="title" value="Admin index" />
                     <p:messages id="messages" />
                 </p:panel>
-                <p:panel id="editUserPanel">
+                <p:panel id="gruposPanel">
                     <h:form>
-                        <h:outputText value="Editar usuario: #{adminMB.name}"/>
-                        <p:panelGrid id="editGrid" columns="2">
-                            <p:outputLabel id="userLabel" for="userInput" value="Nuevo nombre" />
-                            <p:inputText id="userInput" value="#{adminMB.name}" required="true" />
-                            <p:outputLabel id="passLabel" for="passInput" value="Nuevo password" />
-                            <p:password id="passInput" value="#{adminMB.pass}"  required="true" />
-                            <p:outputLabel id="typeLabel" for="typeSelectOne" value="Seleccione un tipo" />
-                            <p:selectOneMenu id="typeSelectOne" value="#{adminMB.id}">
-                                <f:selectItems value="#{adminMB.userTypes}" var="userType"
-                                               itemLabel="#{userType.userTypeName}" itemValue="#{userType.id}"/>
-                            </p:selectOneMenu>
-                        </p:panelGrid>
-                        <p:commandButton value="Editar" action="#{adminMB.update()}"/>
+                        <p:panel id="profesorPanel">
+                            <p:panelGrid id="profesorGrid"
+                                         columns="2">
+                                <p:outputLabel id="nameLabel" for="nameInput" value="Nombre del grupo" />
+                                <p:inputText id="nameInput" value="#{gruposMB.grupoName}" required="true" />
+                                <p:outputLabel id="profesorName" for="profesorSelectOne" value="Profesor" />
+                                <p:selectOneMenu id="profesorSelectOne" value="#{gruposMB.id}">
+                                    <f:selectItems value="#{gruposMB.profesores}" var="profesor"
+                                                   itemLabel="#{profesor.name}" itemValue="#{profesor.id}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel id="alumnosPanel">
+                            <p:dataTable id="alumnosTable"
+                                         value="#{gruposMB.alumnos}"
+                                         var="alumno">
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{alumno.id}" />
+                                </p:column>
+                                <p:column headerText="Nombre alumno">
+                                    <h:outputText value="#{alumno.fullName}" />
+                                </p:column>
+                                <p:column headerText="Acciones" class="buttonCenter" >
+                                    <p:commandButton value="Add" 
+                                                     actionListener="#{gruposMB.onAdd(alumno)}"
+                                                     update="gruposPanel messages" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <p:panel id="alumnosAgregadosPanel">
+                            <p:dataTable id="alumnosAgregagdosTable"
+                                         value="#{gruposMB.alumnosAgregados}"
+                                         var="alumnoAgregado">
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{alumnoAgregado.id}" />
+                                </p:column>
+                                <p:column headerText="Nombre alumno">
+                                    <h:outputText value="#{alumnoAgregado.fullName}" />
+                                </p:column>
+                                <p:column headerText="Acciones" class="buttonCenter" >
+                                    <p:commandButton value="Add" 
+                                                     actionListener="#{gruposMB.onRemove(alumnoAgregado)}"
+                                                     update="gruposPanel messages" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <p:panel id="editButton">
+                            <p:commandButton value="Edit" action="#{gruposMB.update()}" class="buttonCenter" />
+                        </p:panel>
                     </h:form>
                 </p:panel>
             </ui:define>

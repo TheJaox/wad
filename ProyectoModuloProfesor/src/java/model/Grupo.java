@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -30,9 +31,9 @@ public class Grupo implements Serializable {
         
     @ManyToOne
     @JoinColumn(name = "idProfesor")
-    private User user;
+    private User profesor;
 
-    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<User> users;
     
     public int getId() {
@@ -52,19 +53,11 @@ public class Grupo implements Serializable {
     }
 
     public User getProfesor() {
-        return user;
+        return profesor;
     }
 
     public void setProfesor(User profesor) {
-        this.user = profesor;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+        this.profesor = profesor;
     }
 
     public Set<User> getUsers() {
