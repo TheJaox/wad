@@ -3,37 +3,80 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core" 
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Add Excercise</title>
+        <h:outputStylesheet name="style.css" library="css" />
     </h:head>
     <h:body>
         <div id="leftDiv"
              class="leftPart">
-            <p:panel id="leftTitlePanel">
-                <h:outputText id="MultimediaTitle" value="Multimedia" />
+            <p:panel id="leftPanel">
+                <h:form>
+                    <p:panel id="leftTitlePanel">
+                        <h:outputText id="MultimediaTitle" value="Add Section" />
+                        <br />
+                        <br />
+                        <h:outputText value="Add instruction" />
+                        <br />
+                        <p:inputTextarea value="#{excerciseMB.ejercicio.instruction}" />
+                        <br />
+                        <br />
+                        <h:outputText value="Add Text" />
+                        <br />
+                        <p:inputTextarea value="#{excerciseMB.ejercicio.text}" />
+                        <br />
+                        <br />
+                        <h:outputText value="Add instruction" />
+                        <br />
+                        <p:inputTextarea value="#{excerciseMB.option.text}" />
+                        <p:spacer />
+                        <br />
+                        <br />
+                        <p:commandButton value="Add"
+                                         actionListener="#{excerciseMB.addOption()}"
+                                         update="leftPanel rightPanel"/>
+                    </p:panel>
+                </h:form>
             </p:panel>
         </div>
         <div id="rightDiv" 
-             class="rightPart"> 
-            <p:panel id="rightTitlePanel">
-                <h:outputText id="addTitle" value="Add excercicse" />
-                <p:messages id="messages" />
-            </p:panel>
-            <p:panel id="addExcercise">
-                <h:form>
-                    <p:panelGrid id="grupoGrid"
-                                 columns="4">
-                        <p:outputLabel id="nameLabel" for="nameInput" value="Nombre del Ejercicio" />
-                        <p:inputText id="nameInput" value="#{excerciseMB.ejercicio.name}" required="true" />
-                        <p:outputLabel id="grupoName" for="grupoSelectOne" value="Grupo" />
-                        <p:selectOneMenu id="grupoSelectOne" value="#{excerciseMB.id}">
-                            <f:selectItems value="#{excerciseMB.profesor.grupos}" var="grupo"
-                                           itemLabel="#{grupo.name}" itemValue="#{grupo.id}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                </h:form>
+             class="rightPart">
+            <p:panel id="rightPanel">
+                <p:panel id="rightTitlePanel">
+                    <h:outputText id="addTitle" value="Add excercicse" />
+                    <p:messages id="messages" />
+                </p:panel>
+                <p:panel id="addExcercise">
+                    <h:form>
+                        <p:panel>
+                            <p:panelGrid id="grupoGrid"
+                                         columns="2">
+                                <p:outputLabel id="nameLabel" for="nameInput" value="Nombre del Ejercicio" />
+                                <p:inputText id="nameInput" value="#{excerciseMB.ejercicio.name}" required="true" />
+                                <p:outputLabel id="grupoName" for="grupoSelectOne" value="Grupo" />
+                                <p:selectOneMenu id="grupoSelectOne" value="#{excerciseMB.id}">
+                                    <f:selectItems value="#{excerciseMB.profesor.grupos}" var="grupo"
+                                                   itemLabel="#{grupo.name}" itemValue="#{grupo.id}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:panel>
+                        <p:panel>
+                            <h:outputText value="#{excerciseMB.ejercicio.instruction}" />
+                            <br />
+                            <p:spacer />
+                            <h:outputText value="#{excerciseMB.ejercicio.text}" />
+                            <br />
+                            <p:spacer />
+                            <h:outputText value="Answer: #{excerciseMB.option.text}" />
+                            <br />
+                        </p:panel>
+                        <p:panel id="addExcerciseButton">
+                            <p:commandButton value="Add Excercise"
+                                             action="#{excerciseMB.add()}" />
+                        </p:panel>
+                    </h:form>
+                </p:panel>
             </p:panel>
         </div>
     </h:body>

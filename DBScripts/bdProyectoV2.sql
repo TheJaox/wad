@@ -23,13 +23,28 @@ CREATE TABLE users(idUser INT NOT NULL AUTO_INCREMENT,
 
 ALTER TABLE grupo ADD CONSTRAINT FK_idProfesor FOREIGN KEY(idProfesor) REFERENCES users(idUser);
 
+CREATE TABLE excerciseType(idExcerciseType INT NOT NULL AUTO_INCREMENT,
+	excerciseTypeName VARCHAR(50) UNIQUE NOT NULL,
+	PRIMARY KEY(idExcerciseType));
+
 CREATE TABLE excercises(idExcercise INT NOT NULL AUTO_INCREMENT,
 	excerciseName VARCHAR(50) NOT NULL,
+	instruction VARCHAR(200) NOT NULL,
+	excerciseText VARCHAR(500),
 	idUser INT NOT NULL,
 	idGrupo INT NOT NULL,
+	idExcerciseType INT NOT NULL,
 	PRIMARY KEY(idExcercise),
 	CONSTRAINT FK_idUserExcercise FOREIGN KEY(idUser) REFERENCES users(idUser),
-	CONSTRAINT FK_idExcerciseGrupo FOREIGN KEY(idGrupo) REFERENCES grupo(idGrupo));
+	CONSTRAINT FK_idExcerciseGrupo FOREIGN KEY(idGrupo) REFERENCES grupo(idGrupo),
+	CONSTRAINT FK_idExcerciseType FOREIGN KEY(idExcerciseType) REFERENCES excerciseType(idExcerciseType));
+
+CREATE TABLE options(idOption INT NOT NULL AUTO_INCREMENT,
+	idExcercise INT NOT NULL,
+	stCorrect INT NOT NULL,
+	optionText VARCHAR(50) NOT NULL,
+	PRIMARY KEY(idOption),
+	CONSTRAINT FK_idOptionExcercise FOREIGN KEY(idExcercise) REFERENCES excercises(idExcercise));
 
 CREATE TABLE answer(idAnswer INT NOT NULL AUTO_INCREMENT,
 	idExcercise INT NOT NULL,
@@ -62,8 +77,12 @@ INSERT INTO userType(userTypeName) VALUES('Administrador');
 INSERT INTO userType(userTypeName) VALUES('Profesor');
 INSERT INTO userType(userTypeName) VALUES('Alumno');
 
+/* Catalogo excerciseType */
+INSERT INTO excerciseType(excerciseTypeName) VALUES('Complete sentences');
+INSERT INTO excerciseType(excerciseTypeName) VALUES('Select verb');
+INSERT INTO excerciseType(excerciseTypeName) VALUES('Select option');
+
 /* Catalogo multiType */
-INSERT INTO multiType(multiTypeName) VALUES('text');
 INSERT INTO multiType(multiTypeName) VALUES('image');
 INSERT INTO multiType(multiTypeName) VALUES('audio');
 

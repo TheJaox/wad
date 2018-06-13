@@ -14,20 +14,23 @@ import javax.persistence.Table;
  * @author jair_
  */
 @Entity
-@Table(name = "answer")
-public class Answer implements Serializable {
+@Table(name = "options")
+public class Option implements Serializable {
     
     @Id
     @GeneratedValue
-    @Column(name = "idAnswer")
+    @Column(name = "idOption")
     private int id;
     
-    @Column(name = "resultText")
-    private String answerText;
-     
+    @Column(name = "optionText")
+    private String text;
+    
+    @Column(name = "stCorrect")
+    private int correcto;
+        
     @ManyToOne
     @JoinColumn(name = "idExcercise")
-    private Excercise excercise;   
+    private Excercise excercise;
 
     public int getId() {
         return id;
@@ -37,12 +40,20 @@ public class Answer implements Serializable {
         this.id = id;
     }
 
-    public String getAnswerText() {
-        return answerText;
+    public String getText() {
+        return text;
     }
 
-    public void setAnswerText(String answerText) {
-        this.answerText = answerText;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public int getCorrecto() {
+        return correcto;
+    }
+
+    public void setCorrecto(int correcto) {
+        this.correcto = correcto;
     }
 
     public Excercise getExcercise() {
@@ -52,5 +63,5 @@ public class Answer implements Serializable {
     public void setExcercise(Excercise excercise) {
         this.excercise = excercise;
     }
-        
+    
 }

@@ -43,10 +43,21 @@
                                 </p:column>
                             </p:dataTable>
                         </p:panel>
-                        <p:panel>
-                            <p:commandButton value="add" 
-                                             action="#{excerciseMB.prepareAdd()}" 
-                                             class="buttonCenter" />
+                        <p:panel class="buttonCenter">
+                            <p:commandButton value="prepareAdd" 
+                                             onclick="PF('selectExcercise').show();" />
+                            <p:dialog header="Select Excercise Type"
+                                      widgetVar="selectExcercise"
+                                      modal="true">
+                                <p:selectOneMenu id="excercisesTypeSelectOne" value="#{excerciseMB.id}">
+                                    <f:selectItems value="#{excerciseMB.excerciseTypes}" var="excerciseType"
+                                                   itemLabel="#{excerciseType.name}" itemValue="#{excerciseType.id}"/>
+                                </p:selectOneMenu>
+                                <p:spacer />
+                                <p:commandButton value="add" 
+                                                 action="#{excerciseMB.prepareAdd()}"
+                                                 onclick="PF('selectExcercise').hide();"/>
+                            </p:dialog>
                         </p:panel>
                     </h:form>
                 </p:panel>

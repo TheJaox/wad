@@ -2,17 +2,17 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.UserType;
+import model.MultiType;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 /**
- * DAO para la comunicacion con la tabla de Usuarios
+ * DAO para la comunicacion con la tabla de MultiTypes
  * @author jair_
  */
-public class UserTypeDAO {
+public class MultiTypeDAO {
     
     private Session session;
 
@@ -32,28 +32,28 @@ public class UserTypeDAO {
     private void manageException(HibernateException ex) {
         System.out.println(">>>>>>>>>>>Ex: " + ex.getMessage());
     }
-
-    public UserType findUserTypeById(Integer id) {
-        UserType userType = new UserType();
+    
+    public MultiType findMultiTypeById(Integer id) {
+        MultiType multiType = new MultiType();
         try {
             startOperation();
-            userType = (UserType) session.get(UserType.class, id);
+            multiType = (MultiType) session.get(MultiType.class, id);
         } catch (HibernateException ex) {
             transaction.rollback();
             manageException(ex);
         } finally {
             closeSession();
         }
-        return userType;
+        return multiType;
     }
     
-    public List<UserType> findAllUserType() {
-        List<UserType> userType = new ArrayList<>();
+    public List<MultiType> findAllMultiType() {
+        List<MultiType> multiTypes = new ArrayList<>();
         try {
             startOperation();
-            userType = this.session.createQuery("from UserType").list();
-            if(userType.isEmpty()) {
-                userType = null;
+            multiTypes = this.session.createQuery("from MultiType").list();
+            if(multiTypes.isEmpty()) {
+                multiTypes = null;
             }
         } catch (HibernateException ex) {
             this.transaction.rollback();
@@ -61,7 +61,7 @@ public class UserTypeDAO {
         } finally {
             closeSession();
         }
-        return userType;
+        return multiTypes;
     }
     
     

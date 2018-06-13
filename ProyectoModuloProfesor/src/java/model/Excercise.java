@@ -30,6 +30,12 @@ public class Excercise implements Serializable {
     
     @Column(name = "excerciseName")
     private String name;
+    
+    @Column(name = "instruction")
+    private String instruction;
+    
+    @Column(name = "excerciseText")
+    private String text;
         
     @ManyToOne
     @JoinColumn(name = "idUser")
@@ -38,9 +44,16 @@ public class Excercise implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idGrupo")
     private Grupo grupo;
+        
+    @ManyToOne
+    @JoinColumn(name = "idExcerciseType")
+    private ExcerciseType excerciseType;
 
-    @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Answer> respuestas;
+
+    @OneToMany(mappedBy = "excercise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Option> opciones;
     
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "excercises")
     private Set<Multimedia> multimedias = new HashSet();
@@ -91,6 +104,38 @@ public class Excercise implements Serializable {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public ExcerciseType getExcerciseType() {
+        return excerciseType;
+    }
+
+    public void setExcerciseType(ExcerciseType excerciseType) {
+        this.excerciseType = excerciseType;
+    }
+
+    public Set<Option> getOpciones() {
+        return opciones;
+    }
+
+    public void setOpciones(Set<Option> opciones) {
+        this.opciones = opciones;
+    }
+
+    public String getInstruction() {
+        return instruction;
+    }
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
     
 }

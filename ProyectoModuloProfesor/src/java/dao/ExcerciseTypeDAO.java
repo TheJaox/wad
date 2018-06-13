@@ -2,17 +2,17 @@ package dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.UserType;
+import model.ExcerciseType;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 /**
- * DAO para la comunicacion con la tabla de Usuarios
+ * DAO para la comunicacion con la tabla de ExcerciseTypes
  * @author jair_
  */
-public class UserTypeDAO {
+public class ExcerciseTypeDAO {
     
     private Session session;
 
@@ -32,28 +32,28 @@ public class UserTypeDAO {
     private void manageException(HibernateException ex) {
         System.out.println(">>>>>>>>>>>Ex: " + ex.getMessage());
     }
-
-    public UserType findUserTypeById(Integer id) {
-        UserType userType = new UserType();
+    
+    public ExcerciseType findExcerciseTypeById(Integer id) {
+        ExcerciseType excerciseType = new ExcerciseType();
         try {
             startOperation();
-            userType = (UserType) session.get(UserType.class, id);
+            excerciseType = (ExcerciseType) session.get(ExcerciseType.class, id);
         } catch (HibernateException ex) {
             transaction.rollback();
             manageException(ex);
         } finally {
             closeSession();
         }
-        return userType;
+        return excerciseType;
     }
     
-    public List<UserType> findAllUserType() {
-        List<UserType> userType = new ArrayList<>();
+    public List<ExcerciseType> findAllExcerciseType() {
+        List<ExcerciseType> excerciseTypes = new ArrayList<>();
         try {
             startOperation();
-            userType = this.session.createQuery("from UserType").list();
-            if(userType.isEmpty()) {
-                userType = null;
+            excerciseTypes = this.session.createQuery("from ExcerciseType").list();
+            if(excerciseTypes.isEmpty()) {
+                excerciseTypes = null;
             }
         } catch (HibernateException ex) {
             this.transaction.rollback();
@@ -61,7 +61,7 @@ public class UserTypeDAO {
         } finally {
             closeSession();
         }
-        return userType;
+        return excerciseTypes;
     }
     
     

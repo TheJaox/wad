@@ -51,6 +51,7 @@ public class LoginMB implements Serializable {
                     adminMB.setUser(user);
                     pageToReturn = adminMB.prepareIndex();
                 } else if (user.getUserType().getId() == BusinessConstants.USERTYPE_PROFE) {
+                    excerciseMB.setUserDAO(userDAO);
                     excerciseMB.setUser(user);
                     pageToReturn = excerciseMB.prepareIndex();
                 } else {

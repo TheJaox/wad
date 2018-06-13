@@ -48,12 +48,14 @@ Contributor(s):
     <property name="hibernate.connection.requireSSL">false</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">admin</property>
-    <mapping class="model.UserType"/>
-    <mapping class="model.User"/>
+    <mapping class="model.Answer"/>
+    <mapping class="model.Excercise"/>
+    <mapping class="model.ExcerciseType"/>
     <mapping class="model.Grupo"/>
     <mapping class="model.MultiType"/>
     <mapping class="model.Multimedia"/>
-    <mapping class="model.Excercise"/>
-    <mapping class="model.Answer"/>
+    <mapping class="model.Option"/>
+    <mapping class="model.User"/>
+    <mapping class="model.UserType"/>
   </session-factory>
 </hibernate-configuration>

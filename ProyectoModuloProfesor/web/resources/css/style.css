@@ -19,15 +19,13 @@
 }
 
 .leftPart {
-    border-right: 1px solid red;
-    width: 20%;
+    width: 30%;
     height: 100%;
     float: left;
 }
 
 .rightPart {
-    border-left: 1px solid blue;
-    width: 80%;
+    width: 70%;
     height: 100%;
     float: right;
 }
