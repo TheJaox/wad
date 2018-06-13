@@ -9,75 +9,150 @@
         <h:outputStylesheet name="style.css" library="css" />
     </h:head>
     <h:body>
-        <div id="leftDiv"
-             class="leftPart">
-            <p:panel id="leftPanel">
-                <h:form>
-                    <p:panel id="leftTitlePanel">
-                        <h:outputText id="MultimediaTitle" value="Add Section" />
-                        <br />
-                        <br />
-                        <h:outputText value="Add instruction" />
-                        <br />
-                        <p:inputTextarea value="#{excerciseMB.ejercicio.instruction}" />
-                        <br />
-                        <br />
-                        <h:outputText value="Add Text" />
-                        <br />
-                        <p:inputTextarea value="#{excerciseMB.ejercicio.text}" />
-                        <br />
-                        <br />
-                        <h:outputText value="Add instruction" />
-                        <br />
-                        <p:inputTextarea value="#{excerciseMB.option.text}" />
-                        <p:spacer />
-                        <br />
-                        <br />
-                        <p:commandButton value="Add"
-                                         actionListener="#{excerciseMB.addOption()}"
-                                         update="leftPanel rightPanel"/>
+        <script type="text/javascript">
+            function handleDrop(event, ui) {
+                var droppedCar = ui.draggable;
+                console.log("Holi");
+                droppedCar.fadeOut('fast');
+            }
+        </script>
+        <div>
+            <h:form enctype="multipart/form-data">
+                <div id="leftDiv"
+                     class="leftPart">
+                    <p:panel id="leftPanel">
+                        <p:panel id="leftTitlePanel"
+                                 rendered="#{excerciseMB.renderAdd}">
+                            <h:outputText id="MultimediaTitle" value="Add Section" />
+                            <br />
+                            <br />
+                            <h:outputText value="Add instruction" />
+                            <br />
+                            <p:inputTextarea value="#{excerciseMB.ejercicio.instruction}" id="textArea1"/>
+                            <br />
+                            <br />
+                            <h:outputText value="Add Text" />
+                            <br />
+                            <p:inputTextarea value="#{excerciseMB.ejercicio.text}"  id="textArea2"/>
+                            <br />
+                            <br />
+                            <h:outputText value="Add answer" />
+                            <br />
+                            <p:inputTextarea value="#{excerciseMB.option.text}"  id="textArea3"/>
+                            <p:spacer />
+                            <br />
+                            <br />
+                            <p:commandButton value="Add"
+                                             actionListener="#{excerciseMB.addOption()}"
+                                             update="leftPanel rightPanel"/>
+                        </p:panel>
+                        <p:panel id="multimediaPanel"
+                                 rendered="#{!(excerciseMB.renderAdd)}">
+                            <p:commandButton value="Add Images"
+                                             actionListener="#{excerciseMB.addImages()}"
+                                             update="leftPanel"/>
+                            <br />
+                            <p:fileUpload value="#{excerciseMB.uploadedFile}" 
+                                          mode="simple" 
+                                          skinSimple="true"
+                                          rendered="#{excerciseMB.renderUpload}" />
+                            <p:commandButton value="Submit" 
+                                             ajax="false" 
+                                             actionListener="#{excerciseMB.upload}"
+                                             rendered="#{excerciseMB.renderUpload}" 
+                                             update="multimediaPanel messages" />
+                            <p:spacer />
+                            <br />
+                            <p:dataGrid id="images"
+                                        value="#{excerciseMB.multimedia}"
+                                        var="image"
+                                        columns="1" >
+                                <p:panel id="panel" 
+                                         header="#{image.name}"
+                                         style="text-align:center">
+                                    <h:panelGrid columns="1" style="width:100%">
+                                        <p:graphicImage value="#{excerciseMB.image}" style="width: 100px; height: 70px;" >
+                                            <f:param name="imageId" value="#{image.id}" />
+                                        </p:graphicImage>
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:draggable for="panel" 
+                                             revert="true" 
+                                             handle=".ui-panel-titlebar" 
+                                             stack=".ui-panel"/>
+                            </p:dataGrid>
+                        </p:panel>
                     </p:panel>
-                </h:form>
-            </p:panel>
-        </div>
-        <div id="rightDiv" 
-             class="rightPart">
-            <p:panel id="rightPanel">
-                <p:panel id="rightTitlePanel">
-                    <h:outputText id="addTitle" value="Add excercicse" />
-                    <p:messages id="messages" />
-                </p:panel>
-                <p:panel id="addExcercise">
-                    <h:form>
-                        <p:panel>
-                            <p:panelGrid id="grupoGrid"
-                                         columns="2">
-                                <p:outputLabel id="nameLabel" for="nameInput" value="Nombre del Ejercicio" />
-                                <p:inputText id="nameInput" value="#{excerciseMB.ejercicio.name}" required="true" />
-                                <p:outputLabel id="grupoName" for="grupoSelectOne" value="Grupo" />
-                                <p:selectOneMenu id="grupoSelectOne" value="#{excerciseMB.id}">
-                                    <f:selectItems value="#{excerciseMB.profesor.grupos}" var="grupo"
-                                                   itemLabel="#{grupo.name}" itemValue="#{grupo.id}"/>
-                                </p:selectOneMenu>
-                            </p:panelGrid>
+                </div>
+                <div id="rightDiv" 
+                     class="rightPart">
+                    <p:panel id="rightPanel">
+                        <p:panel id="rightTitlePanel">
+                            <h:outputText id="addTitle" value="Add excercicse" />
+                            <p:messages id="messages" />
                         </p:panel>
-                        <p:panel>
-                            <h:outputText value="#{excerciseMB.ejercicio.instruction}" />
-                            <br />
-                            <p:spacer />
-                            <h:outputText value="#{excerciseMB.ejercicio.text}" />
-                            <br />
-                            <p:spacer />
-                            <h:outputText value="Answer: #{excerciseMB.option.text}" />
-                            <br />
+                        <p:panel id="addExcercise">
+                            <p:panel>
+                                <p:panelGrid id="grupoGrid"
+                                             columns="2">
+                                    <p:outputLabel id="nameLabel" for="nameInput" value="Nombre del Ejercicio" />
+                                    <p:inputText id="nameInput" value="#{excerciseMB.ejercicio.name}" required="true" />
+                                    <p:outputLabel id="grupoName" for="grupoSelectOne" value="Grupo" />
+                                    <p:selectOneMenu id="grupoSelectOne" value="#{excerciseMB.id}">
+                                        <f:selectItems value="#{excerciseMB.profesor.grupos}" var="grupo"
+                                                       itemLabel="#{grupo.name}" itemValue="#{grupo.id}"/>
+                                    </p:selectOneMenu>
+                                </p:panelGrid>
+                            </p:panel>
+                            <p:panel>
+                                <h:outputText value="#{excerciseMB.ejercicio.instruction}" />
+                                <br />
+                                <p:spacer />
+                                <h:outputText value="#{excerciseMB.ejercicio.text}" />
+                                <br />
+                                <p:spacer />
+                                <h:outputText value="Answer: #{excerciseMB.option.text}" />
+                                <br />
+                            </p:panel>
+                            <p:panel id="imageSelected">
+                                <p:outputPanel id="dropArea">
+                                    <h:outputText value="!!!Drop here!!!" 
+                                                  rendered="#{empty excerciseMB.multimediaDropped}" 
+                                                  style="font-size:12px;" />
+                                    <p:dataGrid id="imageSelectedGrid"
+                                                value="#{excerciseMB.multimediaDropped}"
+                                                var="image"
+                                                columns="1" >
+                                        <p:panel id="panel" 
+                                                 header="#{image.name}"
+                                                 style="text-align:center">
+                                            <h:panelGrid columns="1" style="width:100%">
+                                                <p:graphicImage value="#{excerciseMB.image}" style="width: 100px; height: 70px;" >
+                                                    <f:param name="imageId" value="#{image.id}" />
+                                                </p:graphicImage>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                    </p:dataGrid>
+                                </p:outputPanel>
+                            </p:panel>
+                            <p:droppable for="imageSelected" 
+                                         tolerance="touch" 
+                                         activeStyleClass="ui-state-highlight" 
+                                         datasource="images" 
+                                         onDrop="handleDrop">
+                                <p:ajax listener="#{excerciseMB.onImageDrop}" 
+                                        update="dropArea @([id$=images])" />
+                            </p:droppable>
+                            <p:panel id="addExcerciseButton">
+                                <p:commandButton value="Add Excercise"
+                                                 action="#{excerciseMB.add()}" />
+                                <p:commandButton value="Regresar"
+                                                 action="#{excerciseMB.prepareIndex()}" />
+                            </p:panel>
                         </p:panel>
-                        <p:panel id="addExcerciseButton">
-                            <p:commandButton value="Add Excercise"
-                                             action="#{excerciseMB.add()}" />
-                        </p:panel>
-                    </h:form>
-                </p:panel>
-            </p:panel>
+                    </p:panel>
+                </div>
+            </h:form>
         </div>
     </h:body>
 </html>

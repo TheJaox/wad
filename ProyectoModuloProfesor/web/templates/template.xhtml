@@ -11,7 +11,10 @@
     </h:head>
     <h:body>
         <div id="header">
-            <h:outputText value="Header" />
+            <h:form>
+                <h:outputText value="Header" />
+                <p:commandButton value="LogOut" action="#{loginMB.prepareLogin()}" rendered="#{loginMB.renderLogOut}"/>
+            </h:form>
         </div>
         <div id="contentDiv">
             <ui:insert name="content" />

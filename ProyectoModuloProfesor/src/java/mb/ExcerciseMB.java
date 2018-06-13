@@ -4,8 +4,11 @@ import dao.ExcerciseDAO;
 import dao.ExcerciseTypeDAO;
 import dao.GrupoDAO;
 import dao.MultiTypeDAO;
+import dao.MultimediaDAO;
 import dao.OptionDAO;
 import dao.UserDAO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import model.Excercise;
 import model.ExcerciseType;
 import model.Grupo;
@@ -23,6 +27,10 @@ import model.Multimedia;
 import model.Option;
 import model.User;
 import org.jboss.weld.util.collections.ArraySet;
+import org.primefaces.event.DragDropEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import util.BusinessConstants;
 
 /**
@@ -37,12 +45,14 @@ public class ExcerciseMB implements Serializable {
 
     private UserDAO userDAO;
 
+    private MultimediaDAO multimediaDAO;
+
     private MultiTypeDAO multiTypeDAO;
 
     private ExcerciseTypeDAO excerciseTypeDAO;
-    
+
     private GrupoDAO grupoDAO;
-    
+
     private OptionDAO optionDAO;
 
     private List<Excercise> ejercicios;
@@ -51,9 +61,13 @@ public class ExcerciseMB implements Serializable {
 
     private List<Multimedia> multimedia;
 
+    private List<Multimedia> multimediaDropped;
+
     private List<MultiType> multiTypes;
 
     private List<Option> options;
+
+    private Multimedia multi;
 
     private User user;
 
@@ -64,22 +78,16 @@ public class ExcerciseMB implements Serializable {
     private ExcerciseType excerciseType;
 
     private Option option;
-    
+
     private Grupo grupo;
 
     private Integer id;
 
-    private Boolean renderExcerciseType1;
+    private UploadedFile uploadedFile;
 
-    private Boolean renderExcerciseType2;
+    private Boolean renderAdd;
 
-    private Boolean renderExcerciseType3;
-
-    private Boolean renderIntructionButton;
-
-    private Boolean renderTextButton;
-
-    private Boolean renderOptionButton;
+    private Boolean renderUpload;
 
     @PostConstruct
     public void init() {
@@ -88,8 +96,10 @@ public class ExcerciseMB implements Serializable {
         excerciseTypeDAO = new ExcerciseTypeDAO();
         grupoDAO = new GrupoDAO();
         optionDAO = new OptionDAO();
+        multimediaDAO = new MultimediaDAO();
         ejercicios = new ArrayList<>();
         excerciseTypes = new ArrayList<>();
+        multimediaDropped = new ArrayList<>();
         multimedia = new ArrayList<>();
         multiTypes = new ArrayList<>();
         options = new ArrayList<>();
@@ -98,6 +108,8 @@ public class ExcerciseMB implements Serializable {
         profesor = new User();
         option = new Option();
         grupo = new Grupo();
+        renderUpload = false;
+        renderAdd = true;
     }
 
     public String prepareIndex() {
@@ -115,43 +127,22 @@ public class ExcerciseMB implements Serializable {
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "No tiene grupos", null));
         } else {
-            getRenders();
             excerciseType = excerciseTypeDAO.findExcerciseTypeById(id);
             ejercicio = new Excercise();
             multiTypes = multiTypeDAO.findAllMultiType();
+            renderAdd = true;
+            getImages();
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Add", null));
         }
         return pageToReturn;
     }
 
-    private void getRenders() {
-        if (excerciseType.getId() == BusinessConstants.EXCERCISETYPE_COMPLETE_SENTENCE) {
-            renderExcerciseType1 = Boolean.TRUE;
-            renderExcerciseType2 = Boolean.FALSE;
-            renderExcerciseType3 = Boolean.FALSE;
-        } else if (excerciseType.getId() == BusinessConstants.EXCERCISETYPE_SELECT_OPTION) {
-            renderExcerciseType2 = Boolean.TRUE;
-            renderExcerciseType1 = Boolean.FALSE;
-            renderExcerciseType3 = Boolean.FALSE;
-        } else {
-            renderExcerciseType3 = Boolean.TRUE;
-            renderExcerciseType2 = Boolean.FALSE;
-            renderExcerciseType1 = Boolean.FALSE;
-        }
-    }
-    
     public void addOption() {
         System.out.println("Add Option");
+        renderAdd = false;
     }
 
-    /* if (excerciseType.getId() == BusinessConstants.EXCERCISETYPE_COMPLETE_SENTENCE) {
-            
-        } else if (excerciseType.getId() == BusinessConstants.EXCERCISETYPE_SELECT_OPTION) {
-            
-        } else {
-            
-        } */
     public String add() {
         System.out.println("Add add");
         grupo = grupoDAO.findGrupoById(id);
@@ -166,10 +157,83 @@ public class ExcerciseMB implements Serializable {
         System.out.println("Add2");
         int i = excerciseDAO.insertExcercise(ejercicio);
         ejercicio.setId(i);
-        System.out.println("Add3");
+        System.out.println("Excercise: " + i);
         option.setExcercise(ejercicio);
-        optionDAO.insertOption(option);
+        i = optionDAO.insertOption(option);
+        System.out.println("Option: " + i);
+        for(Multimedia iter : multimediaDropped) {
+            iter = multimediaDAO.findMultimediaById(iter.getId());
+            Set<Excercise> excercises = iter.getExcercises();
+            excercises.add(ejercicio);
+            multimediaDAO.updateMultimedia(iter);
+        }
         return prepareIndex();
+    }
+
+    public void upload() {
+        if (uploadedFile != null) {
+            renderUpload = false;
+            multi = new Multimedia();
+            multi.setExcercises(null);
+            multi.setFile(uploadedFile.getContents());
+            MultiType multiTypeTemp = multiTypeDAO.findMultiTypeById(BusinessConstants.MULTITYPE_IMAGE);
+            multi.setMultiType(multiTypeTemp);
+            multi.setName(uploadedFile.getFileName());
+            multi.setContent(uploadedFile.getContentType());
+            multi.setUser(profesor);
+            System.out.println("Insertar multimedia");
+            int i = multimediaDAO.insertMultimedia(multi);
+            System.out.println("Id: " + i);
+            if (i > 0) {
+                FacesMessage message = new FacesMessage("Succesful", uploadedFile.getFileName() + " is uploaded.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                getImages();
+            }
+        } else {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al subir imagen", null));
+        }
+    }
+
+    private void getImages() {
+        multimedia = multimediaDAO.findAllMultimediaByUser(profesor);
+        int i = 0;
+        List<Integer> list = new ArrayList<>();
+        
+        for(Multimedia iter : multimedia) {
+            for(i = 0; i < multimediaDropped.size(); i++) {
+                if(multimedia.get(i).getId() == multimediaDropped.get(i).getId()) {
+                    list.add(i);
+                }
+            }
+        }
+        for(Integer iterInt : list) {
+            boolean remove = multimedia.remove(iterInt);
+            if(!remove)
+                break;
+        }
+    }
+
+    public StreamedContent getImage() throws IOException {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            return new DefaultStreamedContent();
+        } else {
+            String imageId = context.getExternalContext().getRequestParameterMap().get("imageId");
+            Multimedia image = multimediaDAO.findMultimediaById(Integer.parseInt(imageId));
+            return new DefaultStreamedContent(new ByteArrayInputStream(image.getFile()));
+        }
+    }
+
+    public void onImageDrop(DragDropEvent ddEvent) {
+        Multimedia selectedImage = ((Multimedia) ddEvent.getData());
+        multimediaDropped.add(selectedImage);
+        multimedia.remove(selectedImage);
+    }
+
+    public void addImages() {
+        renderUpload = true;
     }
 
     public String prepareUpdate() {
@@ -267,54 +331,6 @@ public class ExcerciseMB implements Serializable {
         this.excerciseType = excerciseType;
     }
 
-    public Boolean getRenderExcerciseType1() {
-        return renderExcerciseType1;
-    }
-
-    public void setRenderExcerciseType1(Boolean renderExcerciseType1) {
-        this.renderExcerciseType1 = renderExcerciseType1;
-    }
-
-    public Boolean getRenderExcerciseType2() {
-        return renderExcerciseType2;
-    }
-
-    public void setRenderExcerciseType2(Boolean renderExcerciseType2) {
-        this.renderExcerciseType2 = renderExcerciseType2;
-    }
-
-    public Boolean getRenderExcerciseType3() {
-        return renderExcerciseType3;
-    }
-
-    public void setRenderExcerciseType3(Boolean renderExcerciseType3) {
-        this.renderExcerciseType3 = renderExcerciseType3;
-    }
-
-    public Boolean getRenderIntructionButton() {
-        return renderIntructionButton;
-    }
-
-    public void setRenderIntructionButton(Boolean renderIntructionButton) {
-        this.renderIntructionButton = renderIntructionButton;
-    }
-
-    public Boolean getRenderTextButton() {
-        return renderTextButton;
-    }
-
-    public void setRenderTextButton(Boolean renderTextButton) {
-        this.renderTextButton = renderTextButton;
-    }
-
-    public Boolean getRenderOptionButton() {
-        return renderOptionButton;
-    }
-
-    public void setRenderOptionButton(Boolean renderOptionButton) {
-        this.renderOptionButton = renderOptionButton;
-    }
-
     public List<Option> getOptions() {
         return options;
     }
@@ -329,6 +345,54 @@ public class ExcerciseMB implements Serializable {
 
     public void setOption(Option option) {
         this.option = option;
+    }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    public Boolean getRenderUpload() {
+        return renderUpload;
+    }
+
+    public void setRenderUpload(Boolean renderUpload) {
+        this.renderUpload = renderUpload;
+    }
+
+    public Multimedia getMulti() {
+        return multi;
+    }
+
+    public void setMulti(Multimedia multi) {
+        this.multi = multi;
+    }
+
+    public Boolean getRenderAdd() {
+        return renderAdd;
+    }
+
+    public void setRenderAdd(Boolean renderAdd) {
+        this.renderAdd = renderAdd;
+    }
+
+    public List<Multimedia> getMultimediaDropped() {
+        return multimediaDropped;
+    }
+
+    public void setMultimediaDropped(List<Multimedia> multimediaDropped) {
+        this.multimediaDropped = multimediaDropped;
     }
 
 }

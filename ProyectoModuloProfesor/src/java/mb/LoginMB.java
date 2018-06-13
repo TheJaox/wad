@@ -13,6 +13,7 @@ import util.BusinessConstants;
 
 /**
  * Controlador para la seccion de Login
+ *
  * @author jair_
  */
 @ManagedBean(name = "loginMB")
@@ -21,10 +22,10 @@ public class LoginMB implements Serializable {
 
     @ManagedProperty(value = "#{adminMB}")
     private AdminMB adminMB;
-    
+
     @ManagedProperty(value = "#{excerciseMB}")
     private ExcerciseMB excerciseMB;
-    
+
     private UserDAO userDAO;
 
     private User user;
@@ -33,10 +34,19 @@ public class LoginMB implements Serializable {
 
     private String userPass;
 
+    private Boolean renderLogOut;
+
     @PostConstruct
     public void init() {
         user = new User();
         userDAO = new UserDAO();
+        renderLogOut = false;
+    }
+
+    public String prepareLogin() {
+        user = new User();
+        renderLogOut = false;
+        return "/index";
     }
 
     public String login() {
@@ -45,6 +55,7 @@ public class LoginMB implements Serializable {
         userFound = userDAO.findUserByName(userName);
         if (userFound != null) {
             if (userFound.getPass().equals(userPass)) {
+                renderLogOut = true;
                 user = userFound;
                 if (user.getUserType().getId() == BusinessConstants.USERTYPE_ADMIN) {
                     adminMB.setUserDAO(userDAO);
@@ -100,6 +111,14 @@ public class LoginMB implements Serializable {
 
     public void setExcerciseMB(ExcerciseMB excerciseMB) {
         this.excerciseMB = excerciseMB;
+    }
+
+    public Boolean getRenderLogOut() {
+        return renderLogOut;
+    }
+
+    public void setRenderLogOut(Boolean renderLogOut) {
+        this.renderLogOut = renderLogOut;
     }
 
 }

@@ -34,6 +34,9 @@ public class Multimedia implements Serializable {
     @Column(name = "multiFile")
     private byte[] file;
     
+    @Column(name = "multiContent")
+    private String content;
+    
     @Column(name = "multiText")
     private String text;
         
@@ -45,7 +48,7 @@ public class Multimedia implements Serializable {
     @JoinColumn(name = "idMultiType")
     private MultiType multiType;
     
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "multiExcercise", catalog = "proyectoWad", joinColumns = { 
 			@JoinColumn(name = "idMultimedia", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "idExcercise", 
@@ -106,6 +109,14 @@ public class Multimedia implements Serializable {
 
     public void setExcercises(Set<Excercise> excercises) {
         this.excercises = excercises;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
     
 }
