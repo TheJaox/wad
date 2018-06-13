@@ -28,8 +28,10 @@
                                                itemLabel="#{userType.userTypeName}" itemValue="#{userType.id}"/>
                             </p:selectOneMenu>
                         </p:panelGrid>
-                        <p:commandButton value="Editar" action="#{adminMB.update()}"/>
-                        <p:commandButton value="Regresar" action="#{adminMB.prepareIndex()}"/>
+                        <p:commandButton value="Editar" icon="ui-icon-wrench" styleClass="myEdit" action="#{adminMB.update()}"/>
+                    </h:form>
+                    <h:form>
+                        <p:commandButton value="Regresar" styleClass="myReturn" action="#{adminMB.prepareIndex()}"/>
                     </h:form>
                 </p:panel>
             </ui:define>

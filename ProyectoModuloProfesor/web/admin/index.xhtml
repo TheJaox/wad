@@ -31,17 +31,17 @@
                                     <h:outputText value="#{user.userType.userTypeName}" />
                                 </p:column>
                                 <p:column headerText="Acciones">
-                                    <p:commandButton value="Edit" action="#{adminMB.prepareUpdate()}" update="adminUsers messages">
+                                    <p:commandButton value="Edit" icon="ui-icon-wrench" styleClass="myEdit" action="#{adminMB.prepareUpdate()}" update="adminUsers messages">
                                         <f:setPropertyActionListener target="#{adminMB.user}" value="#{user}" />
                                     </p:commandButton>
-                                    <p:commandButton value="Delete" action="#{adminMB.delete()}" update="adminUsers messages">
+                                    <p:commandButton value="Delete" icon="ui-icon-alert" styleClass="myDetele" action="#{adminMB.delete()}" update="adminUsers messages">
                                         <f:setPropertyActionListener target="#{adminMB.user}" value="#{user}" />
                                     </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </p:panel>
                         <p:panel>
-                            <p:commandButton value="Add" action="#{adminMB.prepareAdd()}"/>
+                            <p:commandButton value="Add" styleClass="myAdd" icon="ui-icon-plus" action="#{adminMB.prepareAdd()}"/>
                             <p:commandButton value="View Grupos" action="#{gruposMB.prepareIndex()}"/>
                         </p:panel>
                     </h:form>

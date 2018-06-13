@@ -8,11 +8,12 @@
     <h:body>
         <ui:composition template="/templates/template.xhtml">
             <ui:define name="content">
-                <p:panel id="titlePanel">
+                 <div id="logincontdiv">
+                <p:panel id="titlePanel"  styleClass="titlePanellogin">
                     <h:outputText id="title" value="LOGIN" />
                     <p:messages id="messages" />
                 </p:panel>
-                <p:panel id="loginPanel">
+                <p:panel id="loginPanel" styleClass="loginGridst">
                     <h:form>
                         <p:panelGrid id="loginGrid" columns="2">
                             <p:outputLabel id="userLabel" for="userInput" value="Username" />
@@ -20,12 +21,13 @@
                             <p:outputLabel id="passLabel" for="passInput" value="Password" />
                             <p:password id="passInput" value="#{loginMB.userPass}"  required="true" />
                         </p:panelGrid>
-                        <p:commandButton value="submit" 
+                        <p:commandButton value="submit" styleClass="mycolor" icon="ui-icon-key" 
                                          action="#{loginMB.login()}" 
                                          update="messages" 
                                          class="buttonCenter"/>
                     </h:form>
                 </p:panel>
+                 </div>
             </ui:define>
         </ui:composition>
     </h:body>

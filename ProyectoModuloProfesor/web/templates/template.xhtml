@@ -10,14 +10,16 @@
         <h:outputStylesheet name="style.css" library="css" />
     </h:head>
     <h:body>
+        <div id="principal">
         <div id="header">
             <h:form>
-                <h:outputText value="Header" />
-                <p:commandButton value="LogOut" action="#{loginMB.prepareLogin()}" rendered="#{loginMB.renderLogOut}"/>
+                <h:outputText value="Lear how to use verbs" />
+                <p:commandButton value="LogOut" styleClass="myButtonsize" action="#{loginMB.prepareLogin()}" rendered="#{loginMB.renderLogOut}"/>
             </h:form>
         </div>
         <div id="contentDiv">
             <ui:insert name="content" />
+        </div>
         </div>
         <div id="footer">
             <h:outputText value="Footer" />

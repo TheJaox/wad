@@ -28,13 +28,13 @@
                                     <h:outputText value="#{ejercicio.grupo.name}" />
                                 </p:column>
                                 <p:column headerText="Acciones">
-                                    <p:commandButton value="edit" 
+                                    <p:commandButton value="edit" icon="ui-icon-wrench" styleClass="myEdit"
                                                      action="#{excerciseMB.prepareUpdate()}" 
                                                      update="profeExcercises messages">
                                         <f:setPropertyActionListener target="#{excerciseMB.ejercicio}" 
                                                                      value="#{ejercicio}" />
                                     </p:commandButton>
-                                    <p:commandButton value="delete" 
+                                    <p:commandButton value="delete" icon="ui-icon-alert" styleClass="myDetele"
                                                      action="#{excerciseMB.delete()}" 
                                                      update="profeExcercises messages">
                                         <f:setPropertyActionListener target="#{excerciseMB.ejercicio}" 
@@ -44,7 +44,7 @@
                             </p:dataTable>
                         </p:panel>
                         <p:panel class="buttonCenter">
-                            <p:commandButton value="prepareAdd" 
+                            <p:commandButton value="prepareAdd" styleClass="myAdd" icon="ui-icon-plus" 
                                              onclick="PF('selectExcercise').show();" />
                             <p:dialog header="Select Excercise Type"
                                       widgetVar="selectExcercise"
@@ -54,7 +54,7 @@
                                                    itemLabel="#{excerciseType.name}" itemValue="#{excerciseType.id}"/>
                                 </p:selectOneMenu>
                                 <p:spacer />
-                                <p:commandButton value="add" 
+                                <p:commandButton value="add"  styleClass="myAdd" icon="ui-icon-plus"
                                                  action="#{excerciseMB.prepareAdd()}"
                                                  onclick="PF('selectExcercise').hide();"/>
                             </p:dialog>

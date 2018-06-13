@@ -52,8 +52,10 @@ public class AdminMB implements Serializable {
     }
 
     public String prepareIndex() {
+        System.out.println("prepareindex");
         String pageToReturn = "/admin/index";
         users = userDAO.findAllUser();
+        System.out.println("prepareindex2");
         return pageToReturn;
     }
 

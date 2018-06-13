@@ -1,36 +1,121 @@
 /* Hoja de estilos */
 #header {
-    border: 1px solid black;
-    height: 50px;
-    width: 100%;
-    text-align: right;
+    background-image: url("./images/header.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -o-background-size: 100% 100%, auto;
+    -moz-background-size: 100% 100%, auto;
+    -webkit-background-size: 100% 100%, auto;
+    background-size: 100% 100%, auto;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    font-size: 60px;
 }
 
 #contentDiv {
-    height: 540px;
+    height: 450px;
     border: 1px solid green;
     width: 100%;
     overflow: auto;
 }
 
 #footer {
-    border: 1px solid black;
-    height: 30px;
-    width: 100%;
+     background-image: url("./images/header.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -o-background-size: 100% 100%, auto;
+    -moz-background-size: 100% 100%, auto;
+    -webkit-background-size: 100% 100%, auto;
+    background-size: 100% 100%, auto;
+    text-align: center;
+    bottom: 10px; 
+    width: 99%;
+    color: white;
 }
 
 .leftPart {
-    width: 30%;
+    width: 20%;
     height: 100%;
     float: left;
 }
 
 .rightPart {
-    width: 70%;
+    width: 80%;
     height: 100%;
     float: right;
 }
 
-.buttonCenter {
+
+#logincontdiv{
+    margin: 0 auto;
+    overflow: auto;
+    padding: 5px;
+    width: 500px; 
+}
+#principal{
+        background-image: url("./images/back.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -o-background-size: 100% 100%, 100%;
+        -moz-background-size: 100% 100%, 100%;
+        -webkit-background-size: 100% 100%, 100%;
+        background-size: 100% 100%, 100%;
+}
+loginPanel{
+ overflow: auto;
+}
+.titlePanel{
+   overflow: auto;  
+   margin: 30px;
+    background-color: #ffffff;
+    border: 1px solid black;
+    opacity: 0.6;
+    filter: alpha(opacity=60); 
+}
+.mycolor.ui-button{
+    background: #0099cc !important;
+}
+
+.myDetele.ui-button{
+    background: #ff3333 !important;
+}
+
+.myEdit.ui-button{
+    background: #6699ff !important;
+}
+
+.myAdd.ui-button{
+    background:  #00ff00 !important;
+}
+
+.titlePanellogin.ui-panel{
+    background: #2196F1;
     text-align: center;
+}
+.titlelog{
+    
+}
+.loginGridst.ui-panel{
+    background: #ffffff;
+    border: 1px solid black;
+    opacity: 0.6; 
+}
+
+.loginGridst.ui-panelGrid{
+    margin: 30px;
+    background: #ffffff;
+    border: 1px solid black;
+    opacity: 1;
+}
+
+.myButtonsize.ui-button{
+    font-size: 11px;
+}
+
+.myReturn.ui-button{
+    background: #ffff66 !important;
 }
